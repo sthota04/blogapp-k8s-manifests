@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authms-deployment
+  namespace: blog-application
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog-app
+  template:
+    metadata:
+      labels:
+        app: blog-app
+  spec:
+      containers:
+      - name: authms-container
+        image: sthota04/authmicroservice-img:v4
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authms-service
+  namespace: blog-application
+spec:
+  selector:
+    app: blog-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+      nodePort: 30080
+  type: NodePort

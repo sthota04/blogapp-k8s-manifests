@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blogcommentsms-deployment
+  namespace: blog-application
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog-app
+  template:
+    metadata:
+      labels:
+        app: blog-app
+  spec:
+      containers:
+      - name: blogcommentsms-container
+        image: sthota04/blogcommentsmicroservice-img:v3
+        ports:
+        - containerPort: 5000
+        envFrom:
+          - ConfigMapRef:
+            name: blogcommentsms-config
+          - secretRef:
+            name: blogcommentsms-secret
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blogcommentsms-service
+  namespace: blog-application
+spec:
+  selector:
+    app: blog-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+      nodePort: 31080
+  type: NodePort
