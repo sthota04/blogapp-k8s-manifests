@@ -15,7 +15,7 @@ spec:
   spec:
       containers:
       - name: blogcommentsms-container
-        image: sthota04/blogcommentsmicroservice-img:v3
+        image: sthota04/blogcommentsmicroservice-img:v6
         ports:
         - containerPort: 5000
         envFrom:
